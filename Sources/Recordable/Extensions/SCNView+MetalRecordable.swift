@@ -28,5 +28,5 @@ import SceneKit
 
 extension SCNView: MetalRecordable {
 
-  public var recordableLayer: RecordableLayer? { layer as? RecordableLayer }
+  public var recordableLayer: RecordableLayer? { (layer as? RecordableLayer)?.renderingLayer }
 }

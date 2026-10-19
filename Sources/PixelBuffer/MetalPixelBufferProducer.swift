@@ -51,7 +51,9 @@ final class MetalPixelBufferProducer {
 
   let device: MTLDevice
 
-  let recordableLayer: RecordableLayer
+  let rootLayer: RecordableLayer
+
+  var recordableLayer: RecordableLayer { rootLayer.renderingLayer }
 
   let queue: DispatchQueue
 
@@ -98,7 +100,7 @@ final class MetalPixelBufferProducer {
     guard let device = recordableLayer.device else { throw Error.noDevice }
 
     self.device = device
-    self.recordableLayer = recordableLayer
+    self.rootLayer = recordableLayer
     self.queue = queue
   }
 

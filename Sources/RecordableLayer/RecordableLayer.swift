@@ -51,6 +51,19 @@ public extension RecordableLayer {
   func prepareForRecording() { }
 }
 
+extension RecordableLayer {
+
+  // The layer that receives drawables: this layer, or a sublayer when the renderer draws into one.
+  // SceneKit on iOS 27 renders into a Metal sublayer of the view's layer.
+  var renderingLayer: RecordableLayer {
+    guard lastTexture == nil, let layer = self as? CALayer else { return self }
+    return layer.sublayers?
+      .lazy
+      .compactMap { $0 as? RecordableLayer }
+      .first { $0.lastTexture != nil } ?? self
+  }
+}
+
 #if !targetEnvironment(simulator)
 
 public extension RecordableLayer where Self: CAMetalLayer {
